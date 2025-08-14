@@ -19,15 +19,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-      - run: echo australis.energy > dist/CNAME
-      - run: touch dist/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      # Serve dist/ at apex domain + bypass Jekyll processing
+      - name: Prepare Pages artifact
+        run: |
+          echo australis.energy > dist/CNAME
+          touch dist/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -37,5 +48,5 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - id: deployment
+      - name: Deploy to Pages
         uses: actions/deploy-pages@v4
