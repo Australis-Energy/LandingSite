@@ -3,6 +3,14 @@
  * Centralizes all environment variables and configuration management
  */
 
+// Import debug utilities
+import { debugConfig } from './debug-config';
+
+// Run debug in development
+if (import.meta.env.DEV) {
+  debugConfig();
+}
+
 interface AppConfig {
   // Environment
   env: 'development' | 'staging' | 'production';
@@ -55,19 +63,27 @@ interface AppConfig {
  * Validates that required environment variables are present
  */
 const validateConfig = (): void => {
+  // Only validate truly required variables for the landing page
   const required = [
-    'VITE_SUPABASE_URL',
-    'VITE_SUPABASE_ANON_KEY',
-    'VITE_API_BASE_URL',
+    'VITE_COMMUNICATIONS_FUNCTION_URL',
+    'VITE_COMMUNICATIONS_FUNCTION_KEY',
   ];
   
   const missing = required.filter(key => !import.meta.env[key]);
   
   if (missing.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missing.join(', ')}\n` +
-      'Please check your .env.local file and ensure all required variables are set.'
+    console.warn(
+      `Missing required environment variables for Expert Panel: ${missing.join(', ')}\n` +
+      'The Expert Panel form will not work until these are configured.'
     );
+    
+    // Only throw in production if critical communications vars are missing
+    if (import.meta.env.PROD && missing.some(key => key.includes('COMMUNICATIONS'))) {
+      throw new Error(
+        `Missing critical environment variables: ${missing.join(', ')}\n` +
+        'Please add these to your GitHub repository secrets.'
+      );
+    }
   }
 };
 
