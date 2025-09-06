@@ -13,6 +13,7 @@ import AuthPage from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import ProjectDetail from './pages/ProjectDetail';
 import ExpertPanelTest from './components/test/ExpertPanelTest';
+import DebugPage from './pages/DebugPage';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/debug" element={<DebugPage />} />
           <Route path="/test/expert-panel" element={<ExpertPanelTest />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>

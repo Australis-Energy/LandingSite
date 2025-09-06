@@ -51,6 +51,11 @@ class CommunicationsService {
     const separator = endpoint.includes('?') ? '&' : '?';
     const url = `${this.baseUrl}${endpoint}${functionKey ? `${separator}code=${functionKey}` : ''}`;
     
+    // Only log in development
+    if (config.env === 'development') {
+      console.log('Making request to:', url.replace(functionKey || '', '***')); // Log URL but hide key
+    }
+    
     try {
       const response = await fetch(url, {
         ...options,
@@ -60,12 +65,24 @@ class CommunicationsService {
         },
       });
 
+      if (config.env === 'development') {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      }
+
       if (!response.ok) {
         const errorText = await response.text();
+        if (config.env === 'development') {
+          console.error('Response error text:', errorText);
+        }
         throw new Error(`Communications function request failed: ${response.status} - ${errorText}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      if (config.env === 'development') {
+        console.log('Response data:', result);
+      }
+      return result;
     } catch (error) {
       console.error(`Communications request failed for ${endpoint}:`, error);
       throw error;
@@ -94,12 +111,28 @@ class CommunicationsService {
         };
       }
 
-      const response = await this.request<SendEmailResponse>('/api/send-email', {
+      // Make request to Azure Function
+      const azureResponse = await this.request<{ ok: boolean; operationId?: string; status?: string; error?: string }>('/api/send-email', {
         method: 'POST',
         body: JSON.stringify(emailRequest),
       });
 
-      return response;
+      console.log('Azure Function response:', azureResponse);
+
+      // Convert Azure Function response format to our expected format
+      if (azureResponse && azureResponse.ok === true) {
+        console.log('Email sent successfully, returning success response');
+        return {
+          success: true,
+          message: `Email sent successfully. Status: ${azureResponse.status || 'Queued'}`
+        };
+      } else {
+        console.log('Email sending failed, Azure Function returned ok: false or undefined');
+        return {
+          success: false,
+          error: azureResponse?.error || 'Email sending failed - Azure Function returned ok: false'
+        };
+      }
     } catch (error) {
       console.error('Email sending failed:', error);
       return {
