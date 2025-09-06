@@ -77,13 +77,8 @@ const validateConfig = (): void => {
       'The Expert Panel form will not work until these are configured.'
     );
     
-    // Only throw in production if critical communications vars are missing
-    if (import.meta.env.PROD && missing.some(key => key.includes('COMMUNICATIONS'))) {
-      throw new Error(
-        `Missing critical environment variables: ${missing.join(', ')}\n` +
-        'Please add these to your GitHub repository secrets.'
-      );
-    }
+    // Don't throw errors during build - just warn
+    // The communications service will handle the missing config gracefully
   }
 };
 

@@ -25,6 +25,14 @@ class CommunicationsService {
 
   constructor() {
     this.baseUrl = config.functions.communications.url;
+    
+    // Log configuration status for debugging
+    if (!this.baseUrl) {
+      console.error('❌ Communications Function URL is not configured');
+      console.log('💡 Make sure VITE_COMMUNICATIONS_FUNCTION_URL is set in your environment');
+    } else {
+      console.log('✅ Communications service initialized:', this.baseUrl);
+    }
   }
 
   /**
