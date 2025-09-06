@@ -129,8 +129,9 @@ export const config: AppConfig = {
       key: getEnvVar('VITE_GEOSERVICES_FUNCTION_KEY'),
     },
     communications: {
-      url: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_URL'),
-      key: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_KEY'),
+      // Fallback to hardcoded values if environment variables aren't available
+      url: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_URL', 'https://func-communications-dev.azurewebsites.net'),
+      key: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_KEY', 'S4xpLqeA1MiwLvONWpO-0Fo9l9S_5ueysylp4FIh-6qyAzFusbQdJQ=='),
     },
   },
   
