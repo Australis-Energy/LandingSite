@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  VITE_API_BASE_URL = "https://australis-energy-dev-app.azurewebsites.net/api"
+  VITE_APP_ENV = "production"
+
+# Environment variables are set in Netlify dashboard under:
+# Site settings > Environment variables
+# Add all VITE_* variables as sensitive environment variables

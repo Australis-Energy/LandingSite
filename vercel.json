@@ -1,0 +1,21 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "env": {
+    "VITE_SUPABASE_URL": "@vite_supabase_url",
+    "VITE_SUPABASE_ANON_KEY": "@vite_supabase_anon_key",
+    "VITE_AZURE_MAPS_KEY": "@vite_azure_maps_key",
+    "VITE_AZURE_STORAGE_ACCOUNT": "@vite_azure_storage_account",
+    "VITE_AZURE_STORAGE_KEY": "@vite_azure_storage_key",
+    "VITE_API_BASE_URL": "https://australis-energy-dev-app.azurewebsites.net/api",
+    "VITE_API_KEY": "@vite_api_key",
+    "VITE_GEOSERVICES_FUNCTION_URL": "@vite_geoservices_function_url",
+    "VITE_GEOSERVICES_FUNCTION_KEY": "@vite_geoservices_function_key",
+    "VITE_COMMUNICATIONS_FUNCTION_URL": "@vite_communications_function_url",
+    "VITE_COMMUNICATIONS_FUNCTION_KEY": "@vite_communications_function_key",
+    "VITE_SERVICE_BUS_CONNECTION_STRING": "@vite_service_bus_connection_string",
+    "VITE_APPINSIGHTS_INSTRUMENTATION_KEY": "@vite_appinsights_instrumentation_key",
+    "VITE_APP_ENV": "production"
+  }
+}

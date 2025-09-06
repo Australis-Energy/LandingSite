@@ -1,33 +1,11 @@
 
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, User as UserIcon, LogOut } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<any>(null); // Replace with a proper type if profiles table is used
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user || null);
-    });
-    supabase.auth.getUser().then(({ data, error }) => {
-      setUser(data?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    toast({ title: "Logged out", description: "You have been signed out." });
-    navigate("/auth");
-  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-lg border-b border-gray-200/50">
@@ -56,30 +34,6 @@ const Header = () => {
           <Link to="/pricing" className="text-sm text-gray-600 hover:text-australis-blue transition-colors">
             Pricing
           </Link>
-          {!user ? (
-            <Button
-              size="sm"
-              asChild
-              className="flex items-center gap-2 bg-australis-indigo text-white border border-australis-indigo transition-colors hover:bg-white hover:text-australis-indigo"
-              style={{ boxShadow: "0 1px 4px 0 rgba(60,98,255,.10)" }}
-            >
-              <Link to="/auth">
-                <LogIn size={16} />
-                Login / Signup
-              </Link>
-            </Button>
-          ) : (
-            <>
-              <span className="flex items-center gap-2 text-gray-800 text-sm">
-                <UserIcon size={17} />
-                {user.email}
-              </span>
-              <Button size="sm" variant="outline" className="gap-2" onClick={handleLogout}>
-                <LogOut size={15} />
-                Logout
-              </Button>
-            </>
-          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -109,30 +63,6 @@ const Header = () => {
             <Link to="/pricing" className="block text-gray-600 hover:text-australis-blue">
               Pricing
             </Link>
-            {!user ? (
-              <Button
-                size="sm"
-                asChild
-                className="w-full flex items-center justify-center gap-2 bg-australis-indigo text-white border border-australis-indigo transition-colors hover:bg-white hover:text-australis-indigo"
-                style={{ boxShadow: "0 1px 4px 0 rgba(60,98,255,.10)" }}
-              >
-                <Link to="/auth">
-                  <LogIn size={16} />
-                  Login / Signup
-                </Link>
-              </Button>
-            ) : (
-              <>
-                <span className="flex items-center gap-2 text-gray-800 text-sm">
-                  <UserIcon size={17} />
-                  {user.email}
-                </span>
-                <Button size="sm" variant="outline" className="w-full gap-2 mt-2" onClick={handleLogout}>
-                  <LogOut size={15} />
-                  Logout
-                </Button>
-              </>
-            )}
           </div>
         </div>
       )}

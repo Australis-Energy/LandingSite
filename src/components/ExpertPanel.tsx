@@ -3,18 +3,34 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { BrainCircuit, Sparkles, Users } from "lucide-react";
+import { useEmailSending } from "@/hooks/useEmailSending";
 
 const ExpertPanel = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
+  const { sendExpertPanelInterest, isLoading } = useEmailSending();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Thank you for your interest!",
-      description: "We'll be in touch soon about joining our expert panel.",
-    });
-    setEmail("");
+    
+    if (!email) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter your email address.",
+      });
+      return;
+    }
+
+    try {
+      const result = await sendExpertPanelInterest(email);
+
+      if (result.success) {
+        setEmail("");
+      }
+    } catch (error) {
+      console.error('Expert panel interest submission failed:', error);
+    }
   };
 
   return (
@@ -93,9 +109,10 @@ const ExpertPanel = () => {
               />
               <Button 
                 type="submit" 
-                className="bg-gradient-to-r from-australis-indigo to-australis-indigo/90 hover:from-australis-indigo/90 hover:to-australis-indigo/80 shadow-lg shadow-australis-indigo/20 backdrop-blur-sm border border-white/20"
+                disabled={isLoading}
+                className="bg-gradient-to-r from-australis-indigo to-australis-indigo/90 hover:from-australis-indigo/90 hover:to-australis-indigo/80 shadow-lg shadow-australis-indigo/20 backdrop-blur-sm border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Join Panel
+                {isLoading ? "Submitting..." : "Join Panel"}
               </Button>
             </form>
           </div>
