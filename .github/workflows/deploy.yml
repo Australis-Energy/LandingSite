@@ -23,28 +23,35 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Debug Environment Variables
+      run: |
+        echo "🔍 Checking environment variables..."
+        echo "VITE_COMMUNICATIONS_FUNCTION_URL: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_URL || 'NOT SET IN SECRETS' }}"
+        echo "VITE_COMMUNICATIONS_FUNCTION_KEY: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_KEY && '[SET]' || 'NOT SET IN SECRETS' }}"
+        echo "Repository variables fallback available: ${{ vars.VITE_COMMUNICATIONS_FUNCTION_URL && 'YES' || 'NO' }}"
+
     - name: Build
       run: npm run build
       env:
-        # Required for Expert Panel form
-        VITE_COMMUNICATIONS_FUNCTION_URL: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_URL }}
-        VITE_COMMUNICATIONS_FUNCTION_KEY: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_KEY }}
+        # Required for Expert Panel form - try both secrets and vars
+        VITE_COMMUNICATIONS_FUNCTION_URL: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_URL || vars.VITE_COMMUNICATIONS_FUNCTION_URL }}
+        VITE_COMMUNICATIONS_FUNCTION_KEY: ${{ secrets.VITE_COMMUNICATIONS_FUNCTION_KEY || vars.VITE_COMMUNICATIONS_FUNCTION_KEY }}
         
         # Fixed values for landing page
         VITE_API_BASE_URL: https://australis-energy-dev-app.azurewebsites.net/api
         VITE_APP_ENV: production
         
         # Optional services (can be empty for landing page)
-        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-        VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-        VITE_AZURE_MAPS_KEY: ${{ secrets.VITE_AZURE_MAPS_KEY }}
-        VITE_AZURE_STORAGE_ACCOUNT: ${{ secrets.VITE_AZURE_STORAGE_ACCOUNT }}
-        VITE_AZURE_STORAGE_KEY: ${{ secrets.VITE_AZURE_STORAGE_KEY }}
-        VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-        VITE_GEOSERVICES_FUNCTION_URL: ${{ secrets.VITE_GEOSERVICES_FUNCTION_URL }}
-        VITE_GEOSERVICES_FUNCTION_KEY: ${{ secrets.VITE_GEOSERVICES_FUNCTION_KEY }}
-        VITE_SERVICE_BUS_CONNECTION_STRING: ${{ secrets.VITE_SERVICE_BUS_CONNECTION_STRING }}
-        VITE_APPINSIGHTS_INSTRUMENTATION_KEY: ${{ secrets.VITE_APPINSIGHTS_INSTRUMENTATION_KEY }}
+        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || vars.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || vars.VITE_SUPABASE_ANON_KEY }}
+        VITE_AZURE_MAPS_KEY: ${{ secrets.VITE_AZURE_MAPS_KEY || vars.VITE_AZURE_MAPS_KEY }}
+        VITE_AZURE_STORAGE_ACCOUNT: ${{ secrets.VITE_AZURE_STORAGE_ACCOUNT || vars.VITE_AZURE_STORAGE_ACCOUNT }}
+        VITE_AZURE_STORAGE_KEY: ${{ secrets.VITE_AZURE_STORAGE_KEY || vars.VITE_AZURE_STORAGE_KEY }}
+        VITE_API_KEY: ${{ secrets.VITE_API_KEY || vars.VITE_API_KEY }}
+        VITE_GEOSERVICES_FUNCTION_URL: ${{ secrets.VITE_GEOSERVICES_FUNCTION_URL || vars.VITE_GEOSERVICES_FUNCTION_URL }}
+        VITE_GEOSERVICES_FUNCTION_KEY: ${{ secrets.VITE_GEOSERVICES_FUNCTION_KEY || vars.VITE_GEOSERVICES_FUNCTION_KEY }}
+        VITE_SERVICE_BUS_CONNECTION_STRING: ${{ secrets.VITE_SERVICE_BUS_CONNECTION_STRING || vars.VITE_SERVICE_BUS_CONNECTION_STRING }}
+        VITE_APPINSIGHTS_INSTRUMENTATION_KEY: ${{ secrets.VITE_APPINSIGHTS_INSTRUMENTATION_KEY || vars.VITE_APPINSIGHTS_INSTRUMENTATION_KEY }}
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
