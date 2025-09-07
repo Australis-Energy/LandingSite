@@ -10,6 +10,7 @@ export interface SendEmailRequest {
   email: string;
   subject: string;
   message: string;
+  type?: 'contact' | 'support' | 'newsletter' | 'expert-panel' | 'waiting-list' | 'demo-request';
   to?: string;
   recaptchaToken?: string;
 }
@@ -46,10 +47,15 @@ class CommunicationsService {
       throw new Error('Communications function URL is not configured');
     }
 
+    // Construct the full URL - baseUrl should already include the endpoint
+    let url = this.baseUrl;
+    
     // For Azure Functions with function-level authorization, add the code as a query parameter
     const functionKey = config.functions.communications.key;
-    const separator = endpoint.includes('?') ? '&' : '?';
-    const url = `${this.baseUrl}${endpoint}${functionKey ? `${separator}code=${functionKey}` : ''}`;
+    if (functionKey) {
+      const separator = url.includes('?') ? '&' : '?';
+      url = `${url}${separator}code=${functionKey}`;
+    }
     
     // Only log in development
     if (config.env === 'development') {
@@ -112,7 +118,7 @@ class CommunicationsService {
       }
 
       // Make request to Azure Function
-      const azureResponse = await this.request<{ ok: boolean; operationId?: string; status?: string; error?: string }>('/api/send-email', {
+      const azureResponse = await this.request<{ ok: boolean; operationId?: string; status?: string; error?: string }>('', {
         method: 'POST',
         body: JSON.stringify(emailRequest),
       });
@@ -162,6 +168,7 @@ Email: ${email}
 Message:
 ${message}
       `.trim(),
+      type: 'contact',
       recaptchaToken,
     });
   }
@@ -192,6 +199,7 @@ Subject: ${subject}
 Description:
 ${description}
       `.trim(),
+      type: 'support',
       recaptchaToken,
     });
   }
@@ -222,6 +230,7 @@ You'll receive updates about:
 Best regards,
 The Australis Energy Team
       `.trim(),
+      type: 'newsletter',
       recaptchaToken,
     });
   }
@@ -275,6 +284,55 @@ Email: ${email}
 A user has expressed interest in joining the expert panel. 
 Please follow up to collect additional details about their expertise and experience.
       `.trim(),
+      type: 'expert-panel',
+      recaptchaToken,
+    });
+  }
+
+  /**
+   * Send waiting list interest
+   */
+  async sendWaitingListInterest(
+    email: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmail({
+      name: 'Waiting List User',
+      email,
+      subject: 'Waiting List Registration',
+      message: `
+Waiting List Registration:
+
+Email: ${email}
+
+A user has joined the waiting list for early access to Australis Energy Platform.
+Please add them to the waiting list and keep them informed of platform updates.
+      `.trim(),
+      type: 'waiting-list',
+      recaptchaToken,
+    });
+  }
+
+  /**
+   * Send demo request
+   */
+  async sendDemoRequest(
+    email: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmail({
+      name: 'Demo Interested User',
+      email,
+      subject: 'Demo Request',
+      message: `
+Demo Request:
+
+Email: ${email}
+
+A user has requested a demo of the Australis Energy Platform.
+Please follow up to schedule a demonstration.
+      `.trim(),
+      type: 'demo-request',
       recaptchaToken,
     });
   }
@@ -314,3 +372,7 @@ export const sendExpertPanelApplication = (name: string, email: string, expertis
   communicationsService.sendExpertPanelApplication(name, email, expertise, experience, recaptchaToken);
 export const sendExpertPanelInterest = (email: string, recaptchaToken?: string) => 
   communicationsService.sendExpertPanelInterest(email, recaptchaToken);
+export const sendWaitingListInterest = (email: string, recaptchaToken?: string) => 
+  communicationsService.sendWaitingListInterest(email, recaptchaToken);
+export const sendDemoRequest = (email: string, recaptchaToken?: string) => 
+  communicationsService.sendDemoRequest(email, recaptchaToken);

@@ -14,6 +14,8 @@ export interface UseEmailSendingResult {
   sendNewsletterSignup: (name: string, email: string, recaptchaToken?: string) => Promise<SendEmailResponse>;
   sendExpertPanelApplication: (name: string, email: string, expertise: string, experience: string, recaptchaToken?: string) => Promise<SendEmailResponse>;
   sendExpertPanelInterest: (email: string, recaptchaToken?: string) => Promise<SendEmailResponse>;
+  sendWaitingListInterest: (email: string, recaptchaToken?: string) => Promise<SendEmailResponse>;
+  sendDemoRequest: (email: string, recaptchaToken?: string) => Promise<SendEmailResponse>;
   isLoading: boolean;
   error: string | null;
 }
@@ -125,7 +127,23 @@ export const useEmailSending = (showToasts: boolean = true): UseEmailSendingResu
     sendExpertPanelInterest: (email: string, recaptchaToken?: string) =>
       handleEmailOperation(
         communicationsService.sendExpertPanelInterest.bind(communicationsService),
-        'Thank you for your interest! We\'ll be in touch about joining our expert panel.',
+        '🌱 Welcome aboard! We\'re thrilled to have you join our expert panel. You\'ll be hearing from us soon with exciting collaboration opportunities!',
+        email,
+        recaptchaToken
+      ),
+
+    sendWaitingListInterest: (email: string, recaptchaToken?: string) =>
+      handleEmailOperation(
+        communicationsService.sendWaitingListInterest.bind(communicationsService),
+        '🎯 You\'re on the list! We\'ll keep you updated as we get closer to launch. Thanks for your patience!',
+        email,
+        recaptchaToken
+      ),
+
+    sendDemoRequest: (email: string, recaptchaToken?: string) =>
+      handleEmailOperation(
+        communicationsService.sendDemoRequest.bind(communicationsService),
+        '🚀 Demo request received! Our team will reach out soon to schedule a personalized demonstration of Australis Energy Platform.',
         email,
         recaptchaToken
       ),
