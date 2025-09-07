@@ -338,6 +338,35 @@ Please follow up to schedule a demonstration.
   }
 
   /**
+   * Send CTA form submission with detailed user information
+   */
+  async sendCtaFormSubmission(
+    name: string,
+    workEmail: string,
+    companyRole: string,
+    challenge: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmail({
+      name,
+      email: workEmail,
+      subject: `CTA Form Submission from ${name}`,
+      message: `
+CTA Form Submission:
+
+Name: ${name}
+Work Email: ${workEmail}
+Company and Role: ${companyRole}
+Primary Challenge: ${challenge}
+
+Please follow up with this prospect who has expressed interest in accelerating their renewable energy pipeline.
+      `.trim(),
+      type: 'contact',
+      recaptchaToken,
+    });
+  }
+
+  /**
    * Health check for Communications service
    */
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
@@ -376,3 +405,5 @@ export const sendWaitingListInterest = (email: string, recaptchaToken?: string) 
   communicationsService.sendWaitingListInterest(email, recaptchaToken);
 export const sendDemoRequest = (email: string, recaptchaToken?: string) => 
   communicationsService.sendDemoRequest(email, recaptchaToken);
+export const sendCtaFormSubmission = (name: string, workEmail: string, companyRole: string, challenge: string, recaptchaToken?: string) => 
+  communicationsService.sendCtaFormSubmission(name, workEmail, companyRole, challenge, recaptchaToken);
