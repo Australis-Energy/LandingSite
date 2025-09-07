@@ -71,7 +71,7 @@ const ExpertPanel = () => {
         toast({
           title: currentConfig.successTitle,
           description: "Thanks for your interest! We're excited to work with you. Keep an eye on your inbox for next steps.",
-          duration: 6000,
+          duration: 7000,
         });
         
         // Reset the submitted state after a few seconds
