@@ -3,9 +3,11 @@ import NewsletterForm from './NewsletterForm';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { sendCtaFormSubmission } from '@/services/communicationsService';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 const CtaSection = () => {
   const { toast } = useToast();
+  const { executeRecaptcha } = useRecaptcha();
   const [formData, setFormData] = useState({
     name: '',
     workEmail: '',
@@ -41,11 +43,15 @@ const CtaSection = () => {
     setIsSubmitting(true);
     
     try {
+      // Execute reCAPTCHA
+      const recaptchaToken = await executeRecaptcha('cta_form_submission');
+      
       const result = await sendCtaFormSubmission(
         formData.name,
         formData.workEmail,
         formData.companyRole,
-        formData.challenge
+        formData.challenge,
+        recaptchaToken || undefined
       );
 
       if (result.success) {

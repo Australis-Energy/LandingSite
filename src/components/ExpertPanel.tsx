@@ -1,15 +1,16 @@
-
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { BrainCircuit, Sparkles, Users, Clock, Calendar } from "lucide-react";
 import { useEmailSending } from "@/hooks/useEmailSending";
+import { useRecaptcha } from "@/hooks/useRecaptcha";
 import React from "react";
 
 type FormType = 'expert-panel' | 'waiting-list' | 'demo-request';
 
 const ExpertPanel = () => {
   const { toast } = useToast();
+  const { executeRecaptcha } = useRecaptcha();
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [activeForm, setActiveForm] = useState<FormType>('expert-panel');
@@ -63,7 +64,10 @@ const ExpertPanel = () => {
     }
 
     try {
-      const result = await currentConfig.handler(email);
+      // Execute reCAPTCHA with action based on form type
+      const recaptchaToken = await executeRecaptcha(activeForm);
+      
+      const result = await currentConfig.handler(email, recaptchaToken || undefined);
 
       if (result.success) {
         setEmail("");

@@ -45,6 +45,46 @@
   <!-- Fonts / Styles -->
   <link rel="stylesheet" href="/styles/variables.css" />
   <link rel="stylesheet" href="/styles/custom.css" />
+  
+  <!-- reCAPTCHA v3 - Dynamic loading approach -->
+  <script>
+    console.log('🔒 Starting reCAPTCHA loading process...');
+    
+    window.recaptchaLoaded = false;
+    window.onRecaptchaLoad = function() {
+      console.log('✅ reCAPTCHA script loaded via callback');
+      window.recaptchaLoaded = true;
+    };
+
+    // Fallback: Load reCAPTCHA dynamically if not already loaded
+    window.loadRecaptchaDynamic = function() {
+      if (window.grecaptcha || document.querySelector('script[src*="recaptcha/api.js"]')) {
+        console.log('📋 reCAPTCHA already loading or loaded');
+        return;
+      }
+      
+      console.log('🔄 Loading reCAPTCHA dynamically...');
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?render=6LdGy3wqAAAAAK-lI-udrJl57MD9ijxtC8ocDPdp&onload=onRecaptchaLoad';
+      script.async = true;
+      script.defer = true;
+      script.onerror = function() {
+        console.error('❌ Failed to load reCAPTCHA script dynamically');
+      };
+      document.head.appendChild(script);
+    };
+
+    // Try to load immediately
+    setTimeout(() => {
+      if (!window.grecaptcha && !window.recaptchaLoaded) {
+        console.log('🔄 Initial reCAPTCHA load failed, trying dynamic approach...');
+        window.loadRecaptchaDynamic();
+      }
+    }, 1000);
+  </script>
+  
+  <!-- Primary reCAPTCHA script -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdGy3wqAAAAAK-lI-udrJl57MD9ijxtC8ocDPdp&onload=onRecaptchaLoad" async defer onerror="console.error('❌ Primary reCAPTCHA script failed to load'); window.loadRecaptchaDynamic();"></script>
 </head>
 
 <body>
