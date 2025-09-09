@@ -8,16 +8,20 @@ import {
   sendExpertPanelInterest as sendExpertPanelInterestService,
   sendWaitingListInterest as sendWaitingListInterestService,
   sendDemoRequest as sendDemoRequestService,
+  sendExpertPanelInterestOptimistic as sendExpertPanelInterestOptimisticService,
+  sendWaitingListInterestOptimistic as sendWaitingListInterestOptimisticService,
+  sendDemoRequestOptimistic as sendDemoRequestOptimisticService,
   SendEmailResponse
 } from '@/services/communicationsService';
 
-export const useEmailSending = () => {
+export const useEmailSending = (useOptimistic: boolean = true) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendExpertPanelInterest = async (email: string, recaptchaToken?: string): Promise<SendEmailResponse> => {
     setIsLoading(true);
     try {
-      const result = await sendExpertPanelInterestService(email, recaptchaToken);
+      const service = useOptimistic ? sendExpertPanelInterestOptimisticService : sendExpertPanelInterestService;
+      const result = await service(email, recaptchaToken);
       return result;
     } finally {
       setIsLoading(false);
@@ -27,7 +31,8 @@ export const useEmailSending = () => {
   const sendWaitingListInterest = async (email: string, recaptchaToken?: string): Promise<SendEmailResponse> => {
     setIsLoading(true);
     try {
-      const result = await sendWaitingListInterestService(email, recaptchaToken);
+      const service = useOptimistic ? sendWaitingListInterestOptimisticService : sendWaitingListInterestService;
+      const result = await service(email, recaptchaToken);
       return result;
     } finally {
       setIsLoading(false);
@@ -37,7 +42,8 @@ export const useEmailSending = () => {
   const sendDemoRequest = async (email: string, recaptchaToken?: string): Promise<SendEmailResponse> => {
     setIsLoading(true);
     try {
-      const result = await sendDemoRequestService(email, recaptchaToken);
+      const service = useOptimistic ? sendDemoRequestOptimisticService : sendDemoRequestService;
+      const result = await service(email, recaptchaToken);
       return result;
     } finally {
       setIsLoading(false);

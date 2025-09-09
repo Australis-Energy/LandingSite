@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import NewsletterForm from './NewsletterForm';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { sendCtaFormSubmission } from '@/services/communicationsService';
+import { sendCtaFormSubmissionOptimistic } from '@/services/communicationsService';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 const CtaSection = () => {
@@ -46,7 +46,7 @@ const CtaSection = () => {
       // Execute reCAPTCHA
       const recaptchaToken = await executeRecaptcha('cta_form_submission');
       
-      const result = await sendCtaFormSubmission(
+      const result = await sendCtaFormSubmissionOptimistic(
         formData.name,
         formData.workEmail,
         formData.companyRole,
@@ -63,7 +63,12 @@ const CtaSection = () => {
         
         setFormData({ name: '', workEmail: '', companyRole: '', challenge: '' });
       } else {
-        throw new Error(result.error || 'Failed to submit form');
+        // Handle validation errors immediately
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.error || "Please check your information and try again.",
+        });
       }
     } catch (error) {
       console.error('Form submission failed:', error);

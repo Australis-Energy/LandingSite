@@ -149,6 +149,115 @@ class CommunicationsService {
   }
 
   /**
+   * Send an email using the Azure Communications Service with optimistic UI
+   */
+  async sendEmailOptimistic(emailRequest: SendEmailRequest): Promise<SendEmailResponse> {
+    try {
+      // Validate required fields
+      if (!emailRequest.name || !emailRequest.email || !emailRequest.subject || !emailRequest.message) {
+        return {
+          success: false,
+          error: 'Missing required fields: name, email, subject, and message are required'
+        };
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRequest.email.match(emailRegex)) {
+        return {
+          success: false,
+          error: 'Invalid email format'
+        };
+      }
+
+      // Return immediate success response
+      const optimisticResponse = {
+        success: true,
+        message: 'Email sent successfully'
+      };
+
+      // Process actual request in background
+      this.processEmailInBackground(emailRequest);
+
+      return optimisticResponse;
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
+    }
+  }
+
+  /**
+   * Process email request in background with error handling
+   */
+  private async processEmailInBackground(emailRequest: SendEmailRequest): Promise<void> {
+    try {
+      const azureResponse = await this.request<{ ok: boolean; operationId?: string; status?: string; error?: string }>('', {
+        method: 'POST',
+        body: JSON.stringify(emailRequest),
+      });
+
+      if (azureResponse?.ok) {
+        console.log('✅ Background email processing successful:', azureResponse.operationId);
+        
+        // Optional: Store success in local storage for analytics
+        if (typeof window !== 'undefined') {
+          const successCount = parseInt(localStorage.getItem('email_success_count') || '0') + 1;
+          localStorage.setItem('email_success_count', successCount.toString());
+        }
+      } else {
+        console.warn('⚠️ Background email processing failed:', azureResponse?.error);
+        
+        // Optional: Implement retry logic
+        this.scheduleEmailRetry(emailRequest);
+      }
+    } catch (error) {
+      console.error('❌ Background email processing error:', error);
+      
+      // Optional: Implement retry logic
+      this.scheduleEmailRetry(emailRequest);
+    }
+  }
+
+  /**
+   * Schedule email retry with exponential backoff
+   */
+  private scheduleEmailRetry(emailRequest: SendEmailRequest, attempt: number = 1): void {
+    const maxRetries = 3;
+    const baseDelay = 2000; // 2 seconds
+    
+    if (attempt > maxRetries) {
+      console.error('❌ Max email retries exceeded, giving up');
+      return;
+    }
+
+    const delay = baseDelay * Math.pow(2, attempt - 1); // Exponential backoff
+    
+    setTimeout(async () => {
+      console.log(`🔄 Retrying email send (attempt ${attempt}/${maxRetries})`);
+      
+      try {
+        const azureResponse = await this.request<{ ok: boolean; operationId?: string; status?: string; error?: string }>('', {
+          method: 'POST',
+          body: JSON.stringify(emailRequest),
+        });
+
+        if (azureResponse?.ok) {
+          console.log('✅ Email retry successful:', azureResponse.operationId);
+        } else {
+          console.warn(`⚠️ Email retry ${attempt} failed:`, azureResponse?.error);
+          this.scheduleEmailRetry(emailRequest, attempt + 1);
+        }
+      } catch (error) {
+        console.error(`❌ Email retry ${attempt} error:`, error);
+        this.scheduleEmailRetry(emailRequest, attempt + 1);
+      }
+    }, delay);
+  }
+
+  /**
    * Send a contact form email (convenience method)
    */
   async sendContactForm(
@@ -158,6 +267,31 @@ class CommunicationsService {
     recaptchaToken?: string
   ): Promise<SendEmailResponse> {
     return this.sendEmail({
+      name,
+      email,
+      subject: `Contact Form Submission from ${name}`,
+      message: `
+Name: ${name}
+Email: ${email}
+
+Message:
+${message}
+      `.trim(),
+      type: 'contact',
+      recaptchaToken,
+    });
+  }
+
+  /**
+   * Send a contact form email with optimistic response (convenience method)
+   */
+  async sendContactFormOptimistic(
+    name: string,
+    email: string,
+    message: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmailOptimistic({
       name,
       email,
       subject: `Contact Form Submission from ${name}`,
@@ -290,6 +424,30 @@ Please follow up to collect additional details about their expertise and experie
   }
 
   /**
+   * Send expert panel interest with optimistic response
+   */
+  async sendExpertPanelInterestOptimistic(
+    email: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmailOptimistic({
+      name: 'Expert Panel Interested User',
+      email,
+      subject: 'Expert Panel Interest Expression',
+      message: `
+Expert Panel Interest:
+
+Email: ${email}
+
+A user has expressed interest in joining the expert panel. 
+Please follow up to collect additional details about their expertise and experience.
+      `.trim(),
+      type: 'expert-panel',
+      recaptchaToken,
+    });
+  }
+
+  /**
    * Send waiting list interest
    */
   async sendWaitingListInterest(
@@ -297,6 +455,30 @@ Please follow up to collect additional details about their expertise and experie
     recaptchaToken?: string
   ): Promise<SendEmailResponse> {
     return this.sendEmail({
+      name: 'Waiting List User',
+      email,
+      subject: 'Waiting List Registration',
+      message: `
+Waiting List Registration:
+
+Email: ${email}
+
+A user has joined the waiting list for early access to Australis Energy Platform.
+Please add them to the waiting list and keep them informed of platform updates.
+      `.trim(),
+      type: 'waiting-list',
+      recaptchaToken,
+    });
+  }
+
+  /**
+   * Send waiting list interest with optimistic response
+   */
+  async sendWaitingListInterestOptimistic(
+    email: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmailOptimistic({
       name: 'Waiting List User',
       email,
       subject: 'Waiting List Registration',
@@ -338,6 +520,30 @@ Please follow up to schedule a demonstration.
   }
 
   /**
+   * Send demo request with optimistic response
+   */
+  async sendDemoRequestOptimistic(
+    email: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmailOptimistic({
+      name: 'Demo Interested User',
+      email,
+      subject: 'Demo Request',
+      message: `
+Demo Request:
+
+Email: ${email}
+
+A user has requested a demo of the Australis Energy Platform.
+Please follow up to schedule a demonstration.
+      `.trim(),
+      type: 'demo-request',
+      recaptchaToken,
+    });
+  }
+
+  /**
    * Send CTA form submission with detailed user information
    */
   async sendCtaFormSubmission(
@@ -348,6 +554,35 @@ Please follow up to schedule a demonstration.
     recaptchaToken?: string
   ): Promise<SendEmailResponse> {
     return this.sendEmail({
+      name,
+      email: workEmail,
+      subject: `CTA Form Submission from ${name}`,
+      message: `
+CTA Form Submission:
+
+Name: ${name}
+Work Email: ${workEmail}
+Company and Role: ${companyRole}
+Primary Challenge: ${challenge}
+
+Please follow up with this prospect who has expressed interest in accelerating their renewable energy pipeline.
+      `.trim(),
+      type: 'contact',
+      recaptchaToken,
+    });
+  }
+
+  /**
+   * Send CTA form submission with optimistic response
+   */
+  async sendCtaFormSubmissionOptimistic(
+    name: string,
+    workEmail: string,
+    companyRole: string,
+    challenge: string,
+    recaptchaToken?: string
+  ): Promise<SendEmailResponse> {
+    return this.sendEmailOptimistic({
       name,
       email: workEmail,
       subject: `CTA Form Submission from ${name}`,
@@ -407,3 +642,16 @@ export const sendDemoRequest = (email: string, recaptchaToken?: string) =>
   communicationsService.sendDemoRequest(email, recaptchaToken);
 export const sendCtaFormSubmission = (name: string, workEmail: string, companyRole: string, challenge: string, recaptchaToken?: string) => 
   communicationsService.sendCtaFormSubmission(name, workEmail, companyRole, challenge, recaptchaToken);
+
+// Export optimistic convenience functions
+export const sendEmailOptimistic = (emailRequest: SendEmailRequest) => communicationsService.sendEmailOptimistic(emailRequest);
+export const sendContactFormOptimistic = (name: string, email: string, message: string, recaptchaToken?: string) => 
+  communicationsService.sendContactFormOptimistic(name, email, message, recaptchaToken);
+export const sendExpertPanelInterestOptimistic = (email: string, recaptchaToken?: string) => 
+  communicationsService.sendExpertPanelInterestOptimistic(email, recaptchaToken);
+export const sendWaitingListInterestOptimistic = (email: string, recaptchaToken?: string) => 
+  communicationsService.sendWaitingListInterestOptimistic(email, recaptchaToken);
+export const sendDemoRequestOptimistic = (email: string, recaptchaToken?: string) => 
+  communicationsService.sendDemoRequestOptimistic(email, recaptchaToken);
+export const sendCtaFormSubmissionOptimistic = (name: string, workEmail: string, companyRole: string, challenge: string, recaptchaToken?: string) => 
+  communicationsService.sendCtaFormSubmissionOptimistic(name, workEmail, companyRole, challenge, recaptchaToken);

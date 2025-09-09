@@ -14,7 +14,7 @@ const ExpertPanel = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [activeForm, setActiveForm] = useState<FormType>('expert-panel');
-  const { sendExpertPanelInterest, sendWaitingListInterest, sendDemoRequest, isLoading } = useEmailSending();
+  const { sendExpertPanelInterest, sendWaitingListInterest, sendDemoRequest, isLoading } = useEmailSending(true); // Enable optimistic UI
 
   const formConfig = {
     'expert-panel': {
@@ -80,6 +80,13 @@ const ExpertPanel = () => {
         
         // Reset the submitted state after a few seconds
         setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        // Handle validation errors immediately
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.error || "Please check your email address and try again.",
+        });
       }
     } catch (error) {
       console.error(`${activeForm} submission failed:`, error);

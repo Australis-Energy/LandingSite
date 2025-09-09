@@ -11,7 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 
 const ExpertPanelTest = () => {
   const [email, setEmail] = useState('');
-  const { sendExpertPanelInterest, isLoading, error } = useEmailSending(false); // Don't show automatic toasts
+  const [useOptimistic, setUseOptimistic] = useState(true);
+  const { sendExpertPanelInterest, isLoading } = useEmailSending(useOptimistic);
   const { toast } = useToast();
 
   const handleTest = async () => {
@@ -30,7 +31,9 @@ const ExpertPanelTest = () => {
       if (result.success) {
         toast({
           title: "Test Successful!",
-          description: "Expert panel interest email sent successfully.",
+          description: useOptimistic 
+            ? "Optimistic response received (processing in background)" 
+            : "Expert panel interest email sent successfully.",
         });
         setEmail('');
       } else {
@@ -55,6 +58,18 @@ const ExpertPanelTest = () => {
       <h2 className="text-xl font-bold mb-4">Expert Panel Integration Test</h2>
       
       <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="optimistic"
+            checked={useOptimistic}
+            onChange={(e) => setUseOptimistic(e.target.checked)}
+          />
+          <label htmlFor="optimistic" className="text-sm font-medium">
+            Use Optimistic UI (recommended)
+          </label>
+        </div>
+
         <div>
           <label htmlFor="test-email" className="block text-sm font-medium mb-2">
             Test Email Address
@@ -77,21 +92,16 @@ const ExpertPanelTest = () => {
           {isLoading ? 'Sending Test...' : 'Test Expert Panel Interest'}
         </Button>
 
-        {error && (
-          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-      </div>
-
-      <div className="mt-6 p-4 bg-gray-100 rounded text-sm">
-        <h3 className="font-semibold mb-2">Test Details:</h3>
-        <ul className="space-y-1 text-gray-600">
-          <li>• Tests the sendExpertPanelInterest function</li>
-          <li>• Sends to Azure Communications Function</li>
-          <li>• Uses environment variables for function URL and key</li>
-          <li>• Shows detailed error messages if configuration is incorrect</li>
-        </ul>
+        <div className="mt-6 p-4 bg-gray-100 rounded text-sm">
+          <h3 className="font-semibold mb-2">Test Details:</h3>
+          <ul className="space-y-1 text-gray-600">
+            <li>• Tests the sendExpertPanelInterest function</li>
+            <li>• Mode: {useOptimistic ? 'Optimistic UI (fast response)' : 'Traditional (wait for response)'}</li>
+            <li>• Sends to Azure Communications Function</li>
+            <li>• Uses environment variables for function URL and key</li>
+            <li>• Shows detailed error messages if configuration is incorrect</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
