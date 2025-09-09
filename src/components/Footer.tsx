@@ -24,16 +24,16 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-xl font-bold text-australis-blue mb-4">Australis</h3>
             <p className="text-gray-600 mb-6 max-w-sm">
-              Accelerating renewable energy development with AI-powered site selection tools.
+              De-Risking Your Pipeline. Accelerating Deployment.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-australis-blue" aria-label="X (formerly Twitter)">
+              <a href="https://x.com/australisenergy" className="text-gray-400 hover:text-australis-blue" aria-label="X (formerly Twitter)">
                 <XLogo />
               </a>
-              <a href="#" className="text-gray-400 hover:text-australis-blue" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/australis-energy/about/" className="text-gray-400 hover:text-australis-blue" aria-label="LinkedIn">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-australis-blue" aria-label="Bluesky">
+              <a href="https://bsky.app/profile/australisenergy.bsky.social" className="text-gray-400 hover:text-australis-blue" aria-label="Bluesky">
                 <BlueskyLogo />
               </a>
               <a href="#" className="text-gray-400 hover:text-australis-blue" aria-label="External Link">

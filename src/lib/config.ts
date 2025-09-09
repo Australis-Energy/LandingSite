@@ -57,6 +57,11 @@ interface AppConfig {
   serviceBus: {
     connectionString: string;
   };
+  
+  // reCAPTCHA
+  recaptcha: {
+    siteKey: string;
+  };
 }
 
 /**
@@ -129,14 +134,17 @@ export const config: AppConfig = {
       key: getEnvVar('VITE_GEOSERVICES_FUNCTION_KEY'),
     },
     communications: {
-      // Fallback to hardcoded values if environment variables aren't available
-      url: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_URL', 'https://func-communications-dev.azurewebsites.net'),
-      key: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_KEY', 'S4xpLqeA1MiwLvONWpO-0Fo9l9S_5ueysylp4FIh-6qyAzFusbQdJQ=='),
+      url: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_URL', 'http://localhost:7027/api/send-email'),
+      key: getEnvVar('VITE_COMMUNICATIONS_FUNCTION_KEY', ''),
     },
   },
   
   serviceBus: {
     connectionString: getEnvVar('VITE_SERVICE_BUS_CONNECTION_STRING'),
+  },
+  
+  recaptcha: {
+    siteKey: getEnvVar('VITE_RECAPTCHA_SITE_KEY', '6LdGy3wqAAAAAK-lI-udrJl57MD9ijxtC8ocDPdp'),
   },
 };
 

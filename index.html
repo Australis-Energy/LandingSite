@@ -2,11 +2,20 @@
 <html lang="en-GB">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9RBRV457G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9RBRV457G');
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Australis • Site Seeker</title>
-  <meta name="description" content="Australis Site Seeker — fast, map-led screening for UK renewable sites." />
+  <title>Australis: AI-powered Renewable Energy Site Assessments</title>
+  <meta name="description" content="Instantly de-risk your project pipeline. Australis is the UK's leading AI platform for solar site assessment. Our Developability Index analyses grid, planning, and land constraints to find viable sites in minutes, not months." />
   <meta name="author" content="Australis Energy" />
 
   <!-- Canonical & theme -->
@@ -26,9 +35,9 @@
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="Australis Energy" />
-  <meta property="og:title" content="Australis • Site Seeker" />
+  <meta property="og:title" content="Australis: AI-powered Renewable Energy Site Assessments" />
   <meta property="og:description"
-    content="Map-led screening for UK renewable sites. Upload a boundary, assess constraints, and export a feasibility snapshot." />
+    content="Instantly de-risk your project pipeline. Australis is the UK's leading AI platform for solar site assessment. Our Developability Index analyses grid, planning, and land constraints to find viable sites in minutes, not months." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_GB" />
   <meta property="og:url" content="https://australis.energy/" />
@@ -38,21 +47,58 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Australis • Site Seeker" />
-  <meta name="twitter:description" content="Map-led screening for UK renewable sites." />
+  <meta name="twitter:title" content="Australis: AI-powered Renewable Energy Site Assessments" />
+  <meta name="twitter:description" content="Instantly de-risk your project pipeline. Australis is the UK's leading AI platform for solar site assessment. Our Developability Index analyses grid, planning, and land constraints to find viable sites in minutes, not months." />
   <meta name="twitter:image" content="https://australis.energy/assets/brand/og-australis.png?v=2" />
 
   <!-- Fonts / Styles -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="/styles/variables.css" />
   <link rel="stylesheet" href="/styles/custom.css" />
+  
+  <!-- reCAPTCHA v3 - Dynamic loading approach -->
+  <script>
+    console.log('🔒 Starting reCAPTCHA loading process...');
+    
+    window.recaptchaLoaded = false;
+    window.onRecaptchaLoad = function() {
+      console.log('✅ reCAPTCHA script loaded via callback');
+      window.recaptchaLoaded = true;
+    };
+
+    // Fallback: Load reCAPTCHA dynamically if not already loaded
+    window.loadRecaptchaDynamic = function() {
+      if (window.grecaptcha || document.querySelector('script[src*="recaptcha/api.js"]')) {
+        console.log('📋 reCAPTCHA already loading or loaded');
+        return;
+      }
+      
+      console.log('🔄 Loading reCAPTCHA dynamically...');
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?render=6LdGy3wqAAAAAK-lI-udrJl57MD9ijxtC8ocDPdp&onload=onRecaptchaLoad';
+      script.async = true;
+      script.defer = true;
+      script.onerror = function() {
+        console.error('❌ Failed to load reCAPTCHA script dynamically');
+      };
+      document.head.appendChild(script);
+    };
+
+    // Try to load immediately
+    setTimeout(() => {
+      if (!window.grecaptcha && !window.recaptchaLoaded) {
+        console.log('🔄 Initial reCAPTCHA load failed, trying dynamic approach...');
+        window.loadRecaptchaDynamic();
+      }
+    }, 1000);
+  </script>
+  
+  <!-- Primary reCAPTCHA script -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdGy3wqAAAAAK-lI-udrJl57MD9ijxtC8ocDPdp&onload=onRecaptchaLoad" async defer onerror="console.error('❌ Primary reCAPTCHA script failed to load'); window.loadRecaptchaDynamic();"></script>
 </head>
 
 <body>
   <div id="root"></div>
 
-  <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
