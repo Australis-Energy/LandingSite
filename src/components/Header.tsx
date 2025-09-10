@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,9 +9,9 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-lg border-b border-gray-200/50">
       <div className="container-custom flex items-center justify-between h-16">
-        <div className="flex items-center gap-2">
-          <img alt="AE Logo" className="h-8 w-auto" src="/lovable-uploads/edc919d7-a5bd-4ead-bba9-be9e35909623.png" />
-          <a href="#" className="text-xl font-bold text-black">
+        <div className="flex items-end gap-0">
+          <img alt="AE Logo" className="h-20 w-auto" src="/lovable-uploads/apple-touch-icon.png" />
+          <a href="https://australis.energy" className="text-xl font-bold text-black mb-5">
             Australis
           </a>
         </div>
