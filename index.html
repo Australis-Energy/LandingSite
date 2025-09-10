@@ -57,11 +57,11 @@
   
   <!-- reCAPTCHA v3 - Dynamic loading approach -->
   <script>
-    console.log('🔒 Starting reCAPTCHA loading process...');
+    console.log('Starting reCAPTCHA loading process...');
     
     window.recaptchaLoaded = false;
     window.onRecaptchaLoad = function() {
-      console.log('✅ reCAPTCHA script loaded via callback');
+      console.log('reCAPTCHA script loaded via callback');
       window.recaptchaLoaded = true;
     };
 
@@ -78,7 +78,7 @@
       script.async = true;
       script.defer = true;
       script.onerror = function() {
-        console.error('❌ Failed to load reCAPTCHA script dynamically');
+        console.error('Failed to load reCAPTCHA script dynamically');
       };
       document.head.appendChild(script);
     };
@@ -86,7 +86,7 @@
     // Try to load immediately
     setTimeout(() => {
       if (!window.grecaptcha && !window.recaptchaLoaded) {
-        console.log('🔄 Initial reCAPTCHA load failed, trying dynamic approach...');
+        console.log('Initial reCAPTCHA load failed, trying dynamic approach...');
         window.loadRecaptchaDynamic();
       }
     }, 1000);
