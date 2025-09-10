@@ -45,10 +45,10 @@ const DevelopabilityRings = () => {
   }, [score]);
 
   const legends = [
-    { name: "Landscape", color: "bg-australis-aqua", score: 82 },
+    { name: "Land", color: "bg-australis-aqua", score: 82 },
     { name: "Environmental", color: "bg-australis-indigo", score: 76 },
-    { name: "Planning", color: "bg-australis-navy", score: 68 },
-    { name: "Other", color: "bg-australis-blue", score: 72 }
+    { name: "Technical", color: "bg-australis-navy", score: 68 },
+    { name: "Social", color: "bg-australis-blue", score: 72 }
   ];
 
   const calculateStrokeDasharray = (percentage: number, radius: number) => {
