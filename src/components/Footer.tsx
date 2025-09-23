@@ -42,25 +42,7 @@ const Footer = () => {
             </div>
           </div>
           
-          <div>
-            <h4 className="font-medium mb-4">Company</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-600 hover:text-australis-blue">About</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-600 hover:text-australis-blue">Careers</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-600 hover:text-australis-blue">Contact</a>
-              </li>
-              <li>
-                <a href="mailto:hello@australis.energy" className="text-gray-600 hover:text-australis-blue">
-                  hello@australis.energy
-                </a>
-              </li>
-            </ul>
-          </div>
+          
           
           <div>
             <h4 className="font-medium mb-4">Legal</h4>
