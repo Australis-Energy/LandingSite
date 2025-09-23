@@ -64,16 +64,7 @@ const PricingCard = ({
           ))}
         </ul>
         {children}
-        {/* "Choose"/CTA button always at the bottom */}
-        <div className="flex w-full justify-center mt-auto pt-2">
-          <Button
-            size="lg"
-            className={(buttonClass || "") + " w-64 text-base font-semibold py-3"}
-            onClick={onContact}
-          >
-            {ctaText}
-          </Button>
-        </div>
+      
         {/* Accordion Trigger and Content */}
         {detailedFeatures.length > 0 && (
           <>
