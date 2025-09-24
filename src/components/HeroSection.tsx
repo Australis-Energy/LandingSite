@@ -65,6 +65,12 @@ const HeroSection = () => {
                   variant="outline" 
                   size="lg" 
                   className="border-australis-indigo/30 text-australis-indigo hover:bg-australis-indigo/10 backdrop-blur-sm bg-white/40 shadow-lg"
+                  onClick={() => {
+                    const demoSection = document.getElementById('demo');
+                    if (demoSection) {
+                      demoSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
                 >
                   How It Works
                   <PlayCircle className="ml-2 h-4 w-4" />
