@@ -231,30 +231,45 @@ const ExpertPanel = () => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-australis-aqua/50 backdrop-blur-sm bg-white/40 shadow-inner text-australis-navy placeholder:text-australis-navy/60"
-                  required
-                />
-                <Button 
-                  type="submit" 
-                  disabled={isLoading}
-                  className="bg-gradient-to-r from-australis-indigo to-australis-indigo/90 hover:from-australis-indigo/90 hover:to-australis-indigo/80 shadow-lg shadow-australis-indigo/20 backdrop-blur-sm border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      {currentConfig.loadingText}
-                    </span>
-                  ) : (
-                    currentConfig.buttonText
-                  )}
-                </Button>
-              </form>
+              <>
+                {activeForm === 'demo-request' ? (
+                  <div className="flex flex-col items-center">
+                    <a
+                      href="https://outlook.office365.com/owa/calendar/TheAustralisTeam@australis.energy/bookings/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-8 py-4 rounded-xl bg-australis-indigo text-white font-semibold text-lg shadow-lg hover:bg-australis-indigo/90 transition-colors duration-200 mt-2"
+                    >
+                      Book a Date
+                    </a>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex gap-4">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex-1 px-4 py-3 rounded-xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-australis-aqua/50 backdrop-blur-sm bg-white/40 shadow-inner text-australis-navy placeholder:text-australis-navy/60"
+                      required
+                    />
+                    <Button 
+                      type="submit" 
+                      disabled={isLoading}
+                      className="bg-gradient-to-r from-australis-indigo to-australis-indigo/90 hover:from-australis-indigo/90 hover:to-australis-indigo/80 shadow-lg shadow-australis-indigo/20 backdrop-blur-sm border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          {currentConfig.loadingText}
+                        </span>
+                      ) : (
+                        currentConfig.buttonText
+                      )}
+                    </Button>
+                  </form>
+                )}
+              </>
             )}
           </div>
         </div>
