@@ -94,7 +94,7 @@ const ExpertPanel = () => {
   };
 
   return (
-    <section className="container-custom relative z-10">
+    <section id="expert-panel" className="container-custom relative z-10">
       {/* Form Type Switcher */}
       <div className="max-w-2xl mx-auto mb-8">
         <div className="flex justify-center gap-2 p-2 backdrop-blur-xl bg-white/20 border border-white/40 rounded-2xl">
