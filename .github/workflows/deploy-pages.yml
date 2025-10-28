@@ -39,6 +39,12 @@ jobs:
         run: |
           echo australis.energy > dist/CNAME
           touch dist/.nojekyll
+          # Create a 404 fallback that serves the SPA for client-side routes
+          # GitHub Pages will return this file for unknown paths, allowing the
+          # client-side router to take over and avoid 404s when pasting URLs.
+          if [ -f dist/index.html ]; then
+            cp dist/index.html dist/404.html
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
