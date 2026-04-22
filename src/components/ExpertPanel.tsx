@@ -145,7 +145,7 @@ const ExpertPanel = () => {
                 {activeForm === 'demo-request' ? (
                   <div className="flex flex-col items-center">
                     <a
-                      href="https://outlook.office365.com/owa/calendar/TheAustralisTeam@teamaustralis.onmicrosoft.com/bookings/"
+                      href="https://outlook.office.com/book/TheAustralisTeam@teamaustralis.onmicrosoft.com/?ismsaljsauthenabled"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-8 py-4 rounded-xl bg-australis-indigo text-white font-semibold text-lg shadow-lg hover:bg-australis-indigo/90 transition-colors duration-200 mt-2"
