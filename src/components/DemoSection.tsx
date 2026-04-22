@@ -16,7 +16,7 @@ const DemoSection = () => {
 
         <div className="relative max-w-4xl mx-auto w-full bg-gray-100 rounded-xl overflow-hidden shadow-lg" style={{ aspectRatio: '16/9' }}>
           <video
-            src="/lovable-uploads/Australis-demo.mp4"
+            src="/uploads/Australis-demo.mp4"
             className="w-full h-full object-cover border border-gray-200 bg-white"
             controls
           />

@@ -60,7 +60,7 @@ export const useDashboard = () => {
         }),
         score: project.project_reports?.[0]?.developability_score?.toString() || "undefined",
         status: "Development Score",
-        image: "/lovable-uploads/818f82d1-bcb5-4fcd-a7d8-63a8d0f778cf.png",
+        image: "/uploads/818f82d1-bcb5-4fcd-a7d8-63a8d0f778cf.png",
         description: project.description,
         location: project.location,
         team_members: project.team_members

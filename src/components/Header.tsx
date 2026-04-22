@@ -10,7 +10,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-lg border-b border-gray-200/50">
       <div className="container-custom flex items-center justify-between h-16">
         <div className="flex items-end gap-0">
-          <img alt="AE Logo" className="h-20 w-auto" src="/lovable-uploads/apple-touch-icon.png" />
+          <img alt="AE Logo" className="h-20 w-auto" src="/uploads/apple-touch-icon.png" />
           <a href="https://australis.energy" className="text-xl font-bold text-black mb-5">
             Australis
           </a>

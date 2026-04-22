@@ -24,7 +24,7 @@ const DashboardHeader = ({
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <img alt="AE Logo" className="h-10 w-auto" src="/lovable-uploads/edc919d7-a5bd-4ead-bba9-be9e35909623.png" />
+              <img alt="AE Logo" className="h-10 w-auto" src="/uploads/edc919d7-a5bd-4ead-bba9-be9e35909623.png" />
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-australis-navy">Australis Energy</span>
                 

@@ -17,4 +17,4 @@ def make_transparent(input_path, output_path, tolerance=30):
     img.putdata(newData)
     img.save(output_path, "PNG")
 
-make_transparent("public/lovable-uploads/7bf2a95a-42ca-4004-aee8-ecd6db3aa1da.png", "public/lovable-uploads/geovation-clean.png", 50)
+make_transparent("public/uploads/7bf2a95a-42ca-4004-aee8-ecd6db3aa1da.png", "public/uploads/geovation-clean.png", 50)
