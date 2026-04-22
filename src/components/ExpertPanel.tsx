@@ -15,10 +15,20 @@ const ExpertPanel = () => {
   const { executeRecaptcha } = useRecaptcha();
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [activeForm, setActiveForm] = useState<FormType>('expert-panel');
+  const [activeForm, setActiveForm] = useState<FormType>('demo-request');
   const { sendExpertPanelInterest, sendWaitingListInterest, sendDemoRequest, isLoading } = useEmailSending(true); // Enable optimistic UI
 
   const formConfig = {
+    'demo-request': {
+      title: 'Book a Demo',
+      description: 'See Australis Energy Platform in action. Schedule a personalized demonstration to explore how our platform can revolutionize your renewable energy projects.',
+      buttonText: 'Request Demo',
+      successTitle: 'Demo Requested!',
+      successMessage: 'Our team will reach out soon to schedule your personalized demonstration of the Australis Energy Platform.',
+      loadingText: 'Requesting...',
+      handler: sendDemoRequest,
+      icon: <Calendar className="mx-auto text-australis-indigo" />
+    },
     'expert-panel': {
       title: 'Join Our Expert Panel',
       description: 'Help shape the future of renewable energy software. Join our expert panel to provide feedback, access new features, and connect with other industry leaders.',
@@ -38,16 +48,6 @@ const ExpertPanel = () => {
       loadingText: 'Adding...',
       handler: sendWaitingListInterest,
       icon: <Clock className="mx-auto text-australis-indigo" />
-    },
-    'demo-request': {
-      title: 'Book a Demo',
-      description: 'See Australis Energy Platform in action. Schedule a personalized demonstration to explore how our platform can revolutionize your renewable energy projects.',
-      buttonText: 'Request Demo',
-      successTitle: 'Demo Requested!',
-      successMessage: 'Our team will reach out soon to schedule your personalized demonstration of the Australis Energy Platform.',
-      loadingText: 'Requesting...',
-      handler: sendDemoRequest,
-      icon: <Calendar className="mx-auto text-australis-indigo" />
     }
   };
 
