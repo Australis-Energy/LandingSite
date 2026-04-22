@@ -38,27 +38,27 @@ const NewsletterForm = () => {
       toast({
         variant: "destructive",
         title: "Oops! Something went wrong",
-        description: "We couldn't add you to the waitlist right now. Please try again in a moment.",
+        description: "We couldn't process your subscription right now. Please try again in a moment.",
       });
     }
   };
   return <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8">
       <h3 className="text-xl font-semibold mb-4 text-slate-50">Stay updated</h3>
       <p className="text-white/80 mb-6">
-        Get early access and product updates by joining our waitlist.
+        Subscribe for product updates and early access.
       </p>
       
       {isSubscribed ? <div className="flex items-center gap-3 text-white">
           <div className="bg-australis-teal rounded-full p-1">
             <Check className="h-4 w-4" />
           </div>
-          <span>You're on the waitlist!</span>
+          <span>You're subscribed!</span>
         </div> : <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Input type="email" placeholder="Your work email" value={email} onChange={e => setEmail(e.target.value)} required className="bg-white/20 border-white/30 text-white placeholder:text-white/60" />
           </div>
           <Button type="submit" className="w-full bg-white text-australis-blue hover:bg-white/90" disabled={isLoading}>
-            {isLoading ? 'Adding you...' : 'Join Waitlist'}
+            {isLoading ? 'Subscribing...' : 'Subscribe'}
           </Button>
         </form>}
     </div>;

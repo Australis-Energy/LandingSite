@@ -170,7 +170,7 @@ const CtaSection = () => {
             
             <div className="mt-6 pt-6 border-t border-white/20">
               <p className="text-white/70 text-sm">
-                Join the waitlist of top UK developers assessing 500+ sites for 2025 deployments.
+                Join the top UK developers assessing 500+ sites for 2025 deployments.
               </p>
             </div>
           </div>

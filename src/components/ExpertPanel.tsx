@@ -30,11 +30,11 @@ const ExpertPanel = () => {
       icon: <BrainCircuit className="mx-auto text-australis-indigo" />
     },
     'waiting-list': {
-      title: 'Join the Waiting List',
+      title: 'Get Product Updates',
       description: 'Be the first to know when Australis Energy Platform launches. Get exclusive updates and early-bird offers.',
-      buttonText: 'Join Waitlist',
+      buttonText: 'Subscribe',
       successTitle: 'You’re on the list!',
-      successMessage: 'We’ve added you to our waiting list. Stay tuned for updates!',
+      successMessage: 'You are subscribed to product updates. Stay tuned!',
       loadingText: 'Adding...',
       handler: sendWaitingListInterest,
       icon: <Clock className="mx-auto text-australis-indigo" />
