@@ -15,7 +15,7 @@ const HeroSection = () => {
     return () => clearTimeout(timer1);
   }, []);
   
-  const handleEarlyAccess = () => {
+  const handleAccess = () => {
     const element = document.getElementById('expert-panel');
     if (element) {
       element.scrollIntoView({
@@ -56,9 +56,9 @@ const HeroSection = () => {
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-australis-indigo to-australis-indigo/90 hover:from-australis-indigo/90 hover:to-australis-indigo/80 shadow-lg shadow-australis-indigo/20 backdrop-blur-sm border border-white/20" 
-                  onClick={handleEarlyAccess}
+                  onClick={handleAccess}
                 >
-                  Request Early Access
+                  Book a Demo
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button 

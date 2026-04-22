@@ -9,10 +9,9 @@ const SocialProofSection = () => {
   });
 
   const partners = [
-    { name: "Geovation", logo: "/lovable-uploads/7bf2a95a-42ca-4004-aee8-ecd6db3aa1da.png" },
+    { name: "Geovation", logo: "/lovable-uploads/geovation-clean.png" },
     { name: "Ordnance Survey", logo: "/lovable-uploads/8624a46a-939e-4720-bb86-9838bd50d189.png" },
-    { name: "AWS", logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" },
-    { name: "More Coming Soon!", logo: "", isText: true }
+    { name: "AWS", logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" }
   ];
 
   return (
@@ -32,7 +31,7 @@ const SocialProofSection = () => {
                   <img
                     src={partner.logo}
                     alt={partner.name}
-                    className="max-h-16 max-w-full object-contain filter-none"
+                    className="h-12 w-auto object-contain mix-blend-multiply grayscale opacity-70 hover:opacity-100 transition-all duration-300"
                   />
                 )}
               </div>

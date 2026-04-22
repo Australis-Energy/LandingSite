@@ -21,7 +21,7 @@ const ExpertPanel = () => {
   const formConfig = {
     'expert-panel': {
       title: 'Join Our Expert Panel',
-      description: 'Help shape the future of renewable energy software. Join our expert panel to provide feedback, get early access, and connect with other industry leaders.',
+      description: 'Help shape the future of renewable energy software. Join our expert panel to provide feedback, access new features, and connect with other industry leaders.',
       buttonText: 'Join Panel',
       successTitle: 'Thank you for joining!',
       successMessage: 'You have been added to our expert panel. We will be in touch soon!',
@@ -31,7 +31,7 @@ const ExpertPanel = () => {
     },
     'waiting-list': {
       title: 'Get Product Updates',
-      description: 'Be the first to know when Australis Energy Platform launches. Get exclusive updates and early-bird offers.',
+      description: 'Get exclusive product updates, new feature announcements, and special offers.',
       buttonText: 'Subscribe',
       successTitle: 'You’re on the list!',
       successMessage: 'You are subscribed to product updates. Stay tuned!',
@@ -197,7 +197,7 @@ const ExpertPanel = () => {
                 },
                 {
                   icon: <Sparkles className="h-8 w-8 text-australis-aqua drop-shadow-sm" />,
-                  title: "Early Access",
+                  title: "Priority Access",
                   description: "Get priority access to new features and capabilities"
                 },
                 {
@@ -210,7 +210,7 @@ const ExpertPanel = () => {
                 {
                   icon: <Clock className="h-8 w-8 text-australis-indigo drop-shadow-sm" />,
                   title: "Priority Access",
-                  description: "Be among the first to access the platform when it launches"
+                  description: "Gain priority access to new features and capabilities"
                 },
                 {
                   icon: <Sparkles className="h-8 w-8 text-australis-aqua drop-shadow-sm" />,
@@ -220,7 +220,7 @@ const ExpertPanel = () => {
                 {
                   icon: <Users className="h-8 w-8 text-australis-indigo drop-shadow-sm" />,
                   title: "Special Pricing",
-                  description: "Receive early-bird pricing and special offers"
+                  description: "Receive exclusive pricing and special offers"
                 }
               ],
               'demo-request': [

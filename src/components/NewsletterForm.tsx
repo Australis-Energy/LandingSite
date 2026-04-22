@@ -29,7 +29,7 @@ const NewsletterForm = () => {
         setEmail('');
         toast({
           title: "🎯 You're on the list!",
-          description: "We'll keep you updated as we get closer to launch. Thanks for your patience!",
+          description: "We'll keep you updated with the latest news. Thanks for subscribing!",
           duration: 6000,
         });
       }
@@ -45,7 +45,7 @@ const NewsletterForm = () => {
   return <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8">
       <h3 className="text-xl font-semibold mb-4 text-slate-50">Stay updated</h3>
       <p className="text-white/80 mb-6">
-        Subscribe for product updates and early access.
+        Subscribe for product updates and exclusive insights.
       </p>
       
       {isSubscribed ? <div className="flex items-center gap-3 text-white">
