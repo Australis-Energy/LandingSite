@@ -14,11 +14,15 @@ const DemoSection = () => {
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto w-full bg-gray-100 rounded-xl overflow-hidden shadow-lg" style={{ aspectRatio: '16/9' }}>
-          <video
-            src="/uploads/Australis-demo.mp4"
-            className="w-full h-full object-cover border border-gray-200 bg-white"
-            controls
+        <div className="relative max-w-6xl mx-auto w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5" style={{ aspectRatio: '16/9', backgroundColor: '#EDF0F5' }}>
+          <iframe
+            src="/launch-video.html"
+            title="Australis launch video"
+            className="absolute inset-0 w-full h-full border-0"
+            style={{ backgroundColor: '#EDF0F5' }}
+            loading="lazy"
+            allow="autoplay; fullscreen"
+            allowFullScreen
           />
         </div>
         
