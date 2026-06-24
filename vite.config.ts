@@ -16,4 +16,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  esbuild: {
+    // Strip console.* and debugger statements from production builds only.
+    // The dev server and `build:dev` (mode === 'development') keep them.
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+  },
 }));
