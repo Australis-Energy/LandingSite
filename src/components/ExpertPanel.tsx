@@ -94,7 +94,10 @@ const ExpertPanel = () => {
   };
 
   return (
-    <section id="expert-panel" className="container-custom relative z-10">
+    <section id="expert-panel" className="relative overflow-hidden bg-gradient-to-b from-white via-australis-offWhite/60 to-white">
+      <div className="absolute top-20 -right-32 w-96 h-96 bg-gradient-to-br from-australis-aqua/15 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 -left-32 w-96 h-96 bg-gradient-to-tr from-australis-indigo/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div className="container-custom relative z-10">
       {/* Form Type Switcher */}
       <div className="max-w-2xl mx-auto mb-8">
         <div className="flex justify-center gap-2 p-2 backdrop-blur-xl bg-white/20 border border-white/40 rounded-2xl">
@@ -262,6 +265,7 @@ const ExpertPanel = () => {
             ));
           })()}
         </div>
+      </div>
       </div>
     </section>
   );

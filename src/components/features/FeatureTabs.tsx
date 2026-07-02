@@ -74,12 +74,12 @@ const FeatureTabs = () => {
 
   return (
     <Tabs defaultValue={features[0].id} className="w-full" onValueChange={setActiveTab}>
-      <TabsList className={`grid grid-cols-2 md:grid-cols-4 gap-2 p-1 mb-8 bg-white/50 backdrop-blur-sm rounded-lg border border-white/20 animate-fade-in`}>
+      <TabsList className={`grid grid-cols-2 md:grid-cols-4 gap-2 p-1.5 mb-10 h-auto bg-white/60 backdrop-blur-md rounded-2xl border border-australis-navy/5 shadow-lg shadow-australis-navy/5 animate-fade-in`}>
         {features.map((feature) => (
-          <TabsTrigger 
-            key={feature.id} 
+          <TabsTrigger
+            key={feature.id}
             value={feature.id}
-            className="flex items-center gap-2 data-[state=active]:bg-australis-indigo data-[state=active]:text-white"
+            className="flex items-center gap-2 py-3 rounded-xl transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-australis-indigo data-[state=active]:to-australis-indigo/85 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-australis-indigo/25"
           >
             {feature.icon}
             <span className="hidden md:inline">{feature.label}</span>

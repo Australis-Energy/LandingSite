@@ -19,8 +19,10 @@ const FeaturesSection = () => {
   }, [inView]);
 
   return (
-    <section id="features" className="py-24 bg-white" ref={ref}>
-      <div className="container-custom">
+    <section id="features" className="py-24 bg-white relative overflow-hidden" ref={ref}>
+      <div className="absolute top-40 -right-32 w-96 h-96 bg-gradient-to-br from-australis-indigo/[0.07] to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 -left-32 w-96 h-96 bg-gradient-to-tr from-australis-aqua/[0.08] to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div className="container-custom relative z-10">
         <FeatureSectionTitle isVisible={isVisible} />
         <FeatureTabs />
       </div>

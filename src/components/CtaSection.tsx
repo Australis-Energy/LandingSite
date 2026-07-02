@@ -85,15 +85,19 @@ const CtaSection = () => {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Background with gradient and blur effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-australis-navy/95 to-australis-navy/90 z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-australis-navy via-australis-navy/95 to-[#2d2f4a] z-0"></div>
+      <div className="absolute inset-0 bg-grid-pattern-light z-0"></div>
       <div className="absolute -top-20 -right-20 w-96 h-96 bg-australis-aqua/20 rounded-full blur-3xl animate-pulse-slow z-0"></div>
-      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-australis-indigo/20 rounded-full blur-3xl animate-pulse-slow z-0"></div>
+      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-australis-indigo/25 rounded-full blur-3xl animate-pulse-slow z-0"></div>
+      {/* Gradient hairline along the top edge */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-australis-aqua/60 to-transparent z-0"></div>
       
       <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div className="backdrop-blur-sm p-8 rounded-xl border border-white/10">
+          <div className="backdrop-blur-md bg-white/[0.04] p-8 rounded-2xl border border-white/10 shadow-2xl shadow-black/20">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Ready to accelerate your renewable energy pipeline?
+              Ready to accelerate your{' '}
+              <span className="bg-gradient-to-r from-australis-aqua to-[#7ef9d0] bg-clip-text text-transparent">renewable energy pipeline?</span>
             </h2>
             <p className="text-lg md:text-xl opacity-90 mb-8 text-white">
               Join the developers using Australis to make smarter site decisions, faster.
@@ -161,7 +165,7 @@ const CtaSection = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-australis-aqua text-australis-navy hover:bg-australis-aqua/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl bg-gradient-to-r from-australis-aqua to-[#2fd9a1] text-australis-navy font-semibold hover:shadow-xl hover:shadow-australis-aqua/25 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 size="lg"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -175,7 +179,7 @@ const CtaSection = () => {
             </div>
           </div>
           
-          <div className="backdrop-blur-sm p-8 rounded-xl border border-white/10">
+          <div className="backdrop-blur-md bg-white/[0.04] p-8 rounded-2xl border border-white/10 shadow-2xl shadow-black/20">
             <NewsletterForm />
           </div>
         </div>

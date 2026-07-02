@@ -1,4 +1,3 @@
-
 import { useInView } from 'react-intersection-observer';
 import Marquee from 'react-fast-marquee';
 
@@ -15,25 +14,24 @@ const SocialProofSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-white" ref={ref}>
-      <div className="container-custom max-w-4xl">
-        <h2 className="text-3xl font-bold text-center mb-16">
-          Partners
-        </h2>
+    <section className="py-16 bg-white" ref={ref}>
+      <div className={`container-custom max-w-4xl ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-australis-navy/40 mb-10">
+          Built with the backing of
+        </p>
 
-        <div className="glass-card p-8 rounded-xl backdrop-blur-sm overflow-hidden">
-          <Marquee gradient={false} speed={60} pauseOnHover={false} autoFill={true} className="w-full">
+        <div className="relative overflow-hidden">
+          {/* Edge fades so logos dissolve in and out */}
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          <Marquee gradient={false} speed={45} pauseOnHover={true} autoFill={true} className="w-full">
             {partners.map((partner, index) => (
-              <div key={index} className="flex items-center justify-center p-4 h-24 min-w-[180px] mx-6">
-                {partner.isText ? (
-                  <p className="text-lg font-medium text-gray-500">{partner.name}</p>
-                ) : (
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="h-12 w-auto object-contain mix-blend-multiply grayscale opacity-70 hover:opacity-100 transition-all duration-300"
-                  />
-                )}
+              <div key={index} className="flex items-center justify-center p-4 h-20 min-w-[180px] mx-8">
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  className="h-11 w-auto object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                />
               </div>
             ))}
           </Marquee>
