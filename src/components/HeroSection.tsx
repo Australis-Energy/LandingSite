@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, PlayCircle, Sparkles, MapPin, Zap } from 'lucide-react';
+import { ArrowRight, PlayCircle, Gauge, MapPin, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const constraintRows = [
@@ -9,21 +9,32 @@ const constraintRows = [
 ];
 
 const HeroSection = () => {
-  const [showFirstLine, setShowFirstLine] = useState(false);
-  const [showSecondLine, setShowSecondLine] = useState(false);
-  const [score, setScore] = useState(0);
-  const [visibleRows, setVisibleRows] = useState(0);
+  // Respect the user's reduced-motion preference — captured once at mount.
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  // When reduced motion is requested, start at the end state (no tweening).
+  const [showFirstLine, setShowFirstLine] = useState(prefersReducedMotion);
+  const [showSecondLine, setShowSecondLine] = useState(prefersReducedMotion);
+  const [score, setScore] = useState(prefersReducedMotion ? 88 : 0);
+  const [visibleRows, setVisibleRows] = useState(prefersReducedMotion ? constraintRows.length : 0);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const timer1 = setTimeout(() => {
       setShowFirstLine(true);
       setTimeout(() => setShowSecondLine(true), 800);
     }, 200);
     return () => clearTimeout(timer1);
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Animate the developability score counting up
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const start = setTimeout(() => {
       const interval = setInterval(() => {
         setScore((prev) => {
@@ -36,15 +47,16 @@ const HeroSection = () => {
       }, 24);
     }, 900);
     return () => clearTimeout(start);
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Stagger the constraint rows in
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const timers = constraintRows.map((_, i) =>
       setTimeout(() => setVisibleRows(i + 1), 1400 + i * 350)
     );
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [prefersReducedMotion]);
 
   const handleAccess = () => {
     document.getElementById('expert-panel')?.scrollIntoView({ behavior: 'smooth' });
@@ -64,8 +76,8 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           <div className="animate-fade-in-up">
             <div className="section-eyebrow mb-6 bg-white/60 backdrop-blur-sm shadow-sm">
-              <Sparkles className="h-3.5 w-3.5" />
-              AI-powered site intelligence
+              <Gauge className="h-3.5 w-3.5" />
+              22 constraint calculators · one verdict
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-australis-navy leading-[1.08]">
@@ -99,7 +111,7 @@ const HeroSection = () => {
                 className="rounded-full px-8 text-base border-australis-navy/15 text-australis-navy bg-white/60 backdrop-blur-sm hover:bg-white hover:border-australis-indigo/30 hover:text-australis-indigo shadow-sm hover:shadow-lg transition-all duration-300"
                 onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                How It Works
+                See it in action
                 <PlayCircle className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -112,10 +124,64 @@ const HeroSection = () => {
                 { value: 'Minutes', label: 'to a go/no-go' },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-australis-indigo to-australis-aqua bg-clip-text text-transparent">{stat.value}</span>
+                  <span className="text-2xl font-bold text-australis-indigo">{stat.value}</span>
                   <span className="text-sm text-australis-navy/60">{stat.label}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Mobile product proof — static (no count-up / animation), shown only below sm */}
+            <div className="sm:hidden mt-10">
+              <div className="relative backdrop-blur-xl bg-white/70 border border-white/70 rounded-3xl shadow-xl shadow-australis-navy/10 overflow-hidden">
+                <div className="px-4 py-2.5 bg-australis-navy/[0.03] border-b border-australis-navy/5">
+                  <span className="text-[11px] font-medium text-australis-navy/50 tracking-wide">app.australis.energy — Site Assessment</span>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center gap-4 mb-4">
+                    {/* Static score ring at 88 */}
+                    <div className="relative shrink-0 w-16 h-16">
+                      <svg width="64" height="64" viewBox="0 0 60 60" className="-rotate-90">
+                        <circle cx="30" cy="30" r="26" fill="none" stroke="#3a3d5d" strokeOpacity="0.08" strokeWidth="5" />
+                        <circle
+                          cx="30" cy="30" r="26" fill="none"
+                          stroke="url(#hero-score-gradient-mobile)"
+                          strokeWidth="5" strokeLinecap="round"
+                          strokeDasharray={`${(88 / 100) * scoreCircumference} ${scoreCircumference}`}
+                        />
+                        <defs>
+                          <linearGradient id="hero-score-gradient-mobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#6062ff" />
+                            <stop offset="100%" stopColor="#3bf5b7" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-australis-navy">88</span>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-australis-navy/50 leading-tight">Developability</p>
+                      <p className="text-base font-bold text-australis-navy">Strong site</p>
+                      <p className="text-xs text-australis-navy/50">45 MVA · 1.2 km grid headroom</p>
+                    </div>
+                  </div>
+                  {/* Static constraint rows */}
+                  <div className="space-y-2">
+                    {constraintRows.map((row) => (
+                      <div
+                        key={row.name}
+                        className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-white/80 border border-australis-navy/5 shadow-sm"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${row.color}`}></span>
+                          <span className="text-sm font-medium text-australis-navy truncate">{row.name}</span>
+                        </div>
+                        <span className={`text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full border shrink-0 ${row.badge}`}>
+                          {row.level}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -151,8 +217,8 @@ const HeroSection = () => {
                       fill="#6062ff" fillOpacity="0.15" stroke="#6062ff" strokeWidth="2.5"
                       strokeLinejoin="round"
                       strokeDasharray="380"
-                      strokeDashoffset="380"
-                      style={{ animation: 'hero-draw 1.6s ease-out 0.8s forwards' }}
+                      strokeDashoffset={prefersReducedMotion ? 0 : 380}
+                      style={prefersReducedMotion ? undefined : { animation: 'hero-draw 1.6s ease-out 0.8s forwards' }}
                     />
                     {/* Grid line to substation */}
                     <line x1="225" y1="75" x2="282" y2="38" stroke="#3bf5b7" strokeWidth="2" strokeDasharray="5 4" opacity="0.9" />

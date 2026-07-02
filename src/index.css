@@ -120,6 +120,27 @@
 .stagger-3 { animation-delay: 0.34s; }
 .stagger-4 { animation-delay: 0.46s; }
 
+/* Respect reduced-motion: neutralize the decorative/looping keyframe utilities
+   site-wide. JS-driven sequences (e.g. the hero count-up) opt out separately in
+   their components by jumping straight to the end state. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-scale-in,
+  .animate-float,
+  .animate-float-slow,
+  .animate-pulse-slow,
+  .animate-shimmer,
+  .animate-typewriter,
+  .animate-blink-caret {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* Parallax scroll effect */
 .parallax {
   transform: translateZ(0);

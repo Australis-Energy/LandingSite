@@ -31,3 +31,5 @@ docs
 *.sln
 *.sw?
 .vite
+.impeccable
+.claude/skills/impeccable
