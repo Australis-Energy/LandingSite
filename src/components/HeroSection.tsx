@@ -75,10 +75,7 @@ const HeroSection = () => {
       <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           <div className="animate-fade-in-up">
-            <div className="section-eyebrow mb-6 bg-white/60 backdrop-blur-sm shadow-sm">
-              <Gauge className="h-3.5 w-3.5" />
-              22 constraint calculators · one verdict
-            </div>
+         
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-australis-navy leading-[1.08]">
               Find the best renewable energy sites.{' '}
@@ -120,7 +117,6 @@ const HeroSection = () => {
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
               {[
                 { value: '95%', label: 'faster assessments' },
-                { value: '22', label: 'constraint calculators' },
                 { value: 'Minutes', label: 'to a go/no-go' },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-baseline gap-2">
