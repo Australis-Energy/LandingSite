@@ -117,7 +117,7 @@ const HeroSection = () => {
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
               {[
                 { value: '95%', label: 'faster assessments' },
-                { value: 'Minutes', label: 'to a go/no-go' },
+                { value: 'Minutes', label: 'to a go/no-go' }
               ].map((stat) => (
                 <div key={stat.label} className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold text-australis-indigo">{stat.value}</span>
